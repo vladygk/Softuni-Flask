@@ -14,4 +14,3 @@ class User(db.Model):
         default=RoleType.user,
         nullable=False
     )
-

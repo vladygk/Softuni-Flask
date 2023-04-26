@@ -1,2 +1,2 @@
-from .users import *
 from .cards import *
+from .users import *

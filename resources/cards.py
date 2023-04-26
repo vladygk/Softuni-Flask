@@ -42,7 +42,6 @@ class CardResource(Resource):
 
         return CardResponseSchema().dump(card)
 
-
     @auth.login_required
     @validate_schema(CardRequestSchema)
     def put(self, id_):
@@ -62,9 +61,9 @@ class CardResource(Resource):
         role = auth.current_user().role.value
         card = None
         if role == 'admin':
-            card = CardManager.delete_card_for_admin( id_)
+            card = CardManager.delete_card_for_admin(id_)
 
         elif role == 'user':
-            card = CardManager.delete_card_for_user( id_)
+            card = CardManager.delete_card_for_user(id_)
 
         return CardResponseSchema().dump(card)

@@ -12,5 +12,3 @@ class CardRequestSchema(Schema):
     def validates_title(self, data, **kwargs):
         if not data['title'][0].isupper():
             raise ValidationError('Title must start with upper case')
-
-
