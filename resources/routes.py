@@ -1,2 +1,4 @@
+from resources.auth import RegisterResource, LoginResource
 
-routes = ''
+routes = ((RegisterResource, "/register"),
+          (LoginResource, "/login"))

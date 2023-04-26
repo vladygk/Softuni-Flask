@@ -1,7 +1,7 @@
 from db import db
 
 
-class Complaint(db.Model):
+class Card(db.Model):
     __tablename__ = 'cards'
 
     id = db.Column(db.Integer, primary_key=True)
