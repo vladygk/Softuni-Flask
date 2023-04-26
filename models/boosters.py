@@ -6,5 +6,5 @@ class Booster(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    deck_name = db.Column(db.Integer, db.ForeignKey('decks.id'), nullable=False)
+    deck_id = db.Column(db.Integer, db.ForeignKey('decks.id'), nullable=False)
     deck = db.relationship('Deck')
