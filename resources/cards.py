@@ -44,6 +44,7 @@ class CardResource(Resource):
 
 
     @auth.login_required
+    @validate_schema(CardRequestSchema)
     def put(self, id_):
         data = request.get_json()
         role = auth.current_user().role.value
