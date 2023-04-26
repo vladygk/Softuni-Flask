@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import jwt
 from decouple import config
+from flask import request
 from flask_httpauth import HTTPTokenAuth
 from jwt import DecodeError
 from werkzeug.exceptions import BadRequest, Unauthorized
@@ -41,22 +42,25 @@ class AuthManager:
     @staticmethod
     def encode_token(user):
         payload = {"sub": user.id, "exp": datetime.utcnow() + timedelta(days=1)}
-        return jwt.encode(payload, config('JWT_KEY'))
+        coded = jwt.encode(payload, key=config('JWT_KEY'), algorithm="HS256")
+        return coded
 
     @staticmethod
     def decode_token(token):
         try:
-            return jwt.decode(token, key=config('JWT_KEY'), algorithms=["HS256"])
+            decoded = jwt.decode(token, key=config('JWT_KEY'), algorithms=["HS256"])
+            return decoded
         except DecodeError as ex:
             raise BadRequest("Invalid or missing")
 
 
-auth = HTTPTokenAuth()
+auth = HTTPTokenAuth(scheme='Bearer')
 
 
 @auth.verify_token
-def verify_token_and_return_user(token):
+def verify_token(arg):
     try:
+        token = request.headers.environ['HTTP_AUTHORIZATION']
         payload = AuthManager.decode_token(token)
         user = User.query.filter_by(id=payload["sub"]).first()
         if not user:
