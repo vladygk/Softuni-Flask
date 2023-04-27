@@ -1,4 +1,4 @@
-from werkzeug.exceptions import BadRequest, Forbidden
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
 from db import db
 from managers.auth import auth
@@ -23,7 +23,7 @@ class CardManager:
     def get_one_for_admin(id_):
         card = Card.query.filter_by(id=id_).first()
         if not card:
-            return BadRequest("Card with this id doesn't exist")
+            raise BadRequest("Card with this id doesn't exist")
         return card
 
     # returns one card in db if user is the owner
@@ -32,7 +32,7 @@ class CardManager:
         current_user = auth.current_user()
         card = Card.query.filter_by(id=id_).first()
         if not card or current_user.id != card.owner_id:
-            return BadRequest("Card with this id doesn't exist")
+            raise NotFound("Card with this id doesn't exist")
         return card
 
     @staticmethod
@@ -52,7 +52,7 @@ class CardManager:
 
         card_to_edit = Card.query.filter_by(id=id_).first()
         if not card_to_edit:
-            raise BadRequest("Invalid card")
+            raise NotFound("Invalid card")
 
         Card.query.filter_by(id=id_).update({'title': card_data["title"],
                                              'description': card_data["description"],
@@ -70,7 +70,7 @@ class CardManager:
 
         card_to_edit = Card.query.filter_by(id=id_).first()
         if not card_to_edit:
-            raise BadRequest("Invalid card")
+            raise NotFound("Invalid card")
 
         if card_to_edit.owner_id != current_user.id:
             raise Forbidden("No access")
@@ -90,7 +90,7 @@ class CardManager:
 
         card_to_delete = Card.query.filter_by(id=id_).first()
         if not card_to_delete:
-            raise BadRequest("Invalid card")
+            raise NotFound("Invalid card")
 
         Card.query.filter_by(id=id_).delete()
 
@@ -104,7 +104,7 @@ class CardManager:
 
         card_to_delete = Card.query.filter_by(id=id_).first()
         if not card_to_delete:
-            raise BadRequest("Invalid card")
+            raise NotFound("Invalid card")
 
         if card_to_delete.owner_id != current_user.id:
             raise Forbidden("No access")
