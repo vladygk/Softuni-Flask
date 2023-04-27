@@ -2,6 +2,11 @@
 ## SoftUni Flask project ## 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Flask_logo.svg/1280px-Flask_logo.svg.png" width= "100px"/>
 
+
+## How to install ##
+1. `pip install -r requirements.txt`
+2. `flask run`
+
 ## Main Functionality ##
 - CRUD operations for the Card resource
 - Private and Public part of the API
