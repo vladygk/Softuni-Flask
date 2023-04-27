@@ -1,0 +1,30 @@
+admin_get_res = [{'attribute': 'fake attr',
+                  'description': 'fake descr',
+                  'photo_url': 'fake url',
+                  'title': 'fake title'},
+                 {'attribute': 'fake attr',
+                  'description': 'fake descr',
+                  'photo_url': 'fake url',
+                  'title': 'fake title'},
+                 {'attribute': 'fake attr',
+                  'description': 'fake descr',
+                  'photo_url': 'fake url',
+                  'title': 'fake title'},
+                 {'attribute': 'fake attr',
+                  'description': 'fake descr',
+                  'photo_url': 'fake url',
+                  'title': 'fake title'}]
+
+user_get_res = [{'attribute': 'fake attr',
+                 'description': 'fake descr',
+                 'photo_url': 'fake url',
+                 'title': 'fake title'},
+                {'attribute': 'fake attr',
+                 'description': 'fake descr',
+                 'photo_url': 'fake url',
+                 'title': 'fake title'}]
+
+card_schema_with_empty_raises_res = {'message': {'attribute': ['Missing data for required field.'],
+                                                 'description': ['Missing data for required field.'],
+                                                 'photo_url': ['Missing data for required field.'],
+                                                 'title': ['Missing data for required field.']}}
