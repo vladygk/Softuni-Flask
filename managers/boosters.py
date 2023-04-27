@@ -12,6 +12,6 @@ class BoosterManager:
     def get_filtered(deck_name):
         deck_id = Deck.query.filter_by(title=deck_name).first().id
 
-        boosters = Booster.query.filter_by(id=deck_id).all()
+        boosters = Booster.query.filter_by(deck_id=deck_id).all()
 
         return boosters

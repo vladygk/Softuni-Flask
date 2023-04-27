@@ -77,7 +77,6 @@ class CardManager:
 
         Card.query.filter_by(id=id_).update({'title': card_data["title"],
                                              'description': card_data["description"],
-                                             'photo_url': card_data["photo_url"],
                                              'attribute': card_data["attribute"]
                                              })
 
@@ -98,10 +97,8 @@ class CardManager:
 
         Card.query.filter_by(id=id_).update({'title': card_data["title"],
                                              'description': card_data["description"],
-                                             'photo_url': card_data["photo_url"],
                                              'attribute': card_data["attribute"]
                                              })
-
         db.session.commit()
 
         return card_to_edit

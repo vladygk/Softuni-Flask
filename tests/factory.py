@@ -1,7 +1,7 @@
 import factory
 
 from db import db
-from models import User, RoleType, Card, Deck, Booster
+from models import User, RoleType, Card
 
 
 class BaseFactory(factory.Factory):
@@ -38,6 +38,3 @@ class CardFactory(BaseFactory):
     photo_url = "fake url"
     attribute = "fake attr"
     owner_id = 0
-
-
-

@@ -3,7 +3,7 @@ from flask_restful import Resource
 
 from managers.auth import auth
 from managers.cards import CardManager
-from schemas.request_schemas.cards import CardRequestSchema
+from schemas.request_schemas.cards import CardCreateRequestSchema, CardEditRequestSchema
 from schemas.response_schemas.cards import CardResponseSchema
 from utils.decorators import validate_schema
 
@@ -22,7 +22,7 @@ class CardsResource(Resource):
         return CardResponseSchema(many=True).dump(cards)
 
     @auth.login_required
-    @validate_schema(CardRequestSchema)
+    @validate_schema(CardCreateRequestSchema)
     def post(self):
 
         data = request.get_json()
@@ -43,7 +43,7 @@ class CardResource(Resource):
         return CardResponseSchema().dump(card)
 
     @auth.login_required
-    @validate_schema(CardRequestSchema)
+    @validate_schema(CardEditRequestSchema)
     def put(self, id_):
         data = request.get_json()
         role = auth.current_user().role.value

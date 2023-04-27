@@ -1,4 +1,4 @@
-from models import RoleType
+from models import RoleType, Card
 from tests.base import TestRESTAPIBase, generate_token
 from tests.factory import UserFactory, CardFactory
 from tests.helpers import admin_get_res, user_get_res
@@ -112,14 +112,14 @@ class TestLoginAndRoles(TestRESTAPIBase):
         admin_headers = {"Authorization": admin_token}
 
         edit_data = {
-            "photo_url": "edited",
             "title": "Edited ",
             "description": "edited",
             "attribute": "edited"
         }
+        first_id_db = Card.query.filter_by().first().id
 
-        admin_created_card_res = self.client.put("/cards/0", headers=admin_headers, json=edit_data)
-        user_created_card_res = self.client.put("/cards/2", headers=admin_headers, json=edit_data)
+        admin_created_card_res = self.client.put(f"/cards/{first_id_db}", headers=admin_headers, json=edit_data)
+        user_created_card_res = self.client.put(f"/cards/{first_id_db + 2}", headers=admin_headers, json=edit_data)
 
         assert admin_created_card_res.status_code == 200
         assert user_created_card_res.status_code == 200
@@ -146,14 +146,14 @@ class TestLoginAndRoles(TestRESTAPIBase):
         user_headers = {"Authorization": user_token}
 
         edit_data = {
-            "photo_url": "edited",
             "title": "Edited ",
             "description": "edited",
             "attribute": "edited"
         }
+        first_id_db = Card.query.filter_by().first().id
 
-        admin_created_card_res = self.client.put("/cards/0", headers=user_headers, json=edit_data)
-        user_created_card_res = self.client.put("/cards/2", headers=user_headers, json=edit_data)
+        admin_created_card_res = self.client.put(f"/cards/{first_id_db}", headers=user_headers, json=edit_data)
+        user_created_card_res = self.client.put(f"/cards/{first_id_db + 2}", headers=user_headers, json=edit_data)
 
         assert admin_created_card_res.status_code == 403
         assert user_created_card_res.status_code == 200
@@ -179,15 +179,10 @@ class TestLoginAndRoles(TestRESTAPIBase):
         admin_token = generate_token(admin)
         admin_headers = {"Authorization": admin_token}
 
-        edit_data = {
-            "photo_url": "edited",
-            "title": "Edited ",
-            "description": "edited",
-            "attribute": "edited"
-        }
+        first_id_db = Card.query.filter_by().first().id
 
-        admin_created_card_res = self.client.delete("/cards/0", headers=admin_headers, json=edit_data)
-        user_created_card_res = self.client.delete("/cards/2", headers=admin_headers, json=edit_data)
+        admin_created_card_res = self.client.delete(f"/cards/{first_id_db}", headers=admin_headers)
+        user_created_card_res = self.client.delete(f"/cards/{first_id_db + 2}", headers=admin_headers)
 
         assert admin_created_card_res.status_code == 200
         assert user_created_card_res.status_code == 200
@@ -213,18 +208,10 @@ class TestLoginAndRoles(TestRESTAPIBase):
         user_token = generate_token(user)
         user_headers = {"Authorization": user_token}
 
-        edit_data = {
-            "photo_url": "edited",
-            "title": "Edited ",
-            "description": "edited",
-            "attribute": "edited"
-        }
+        first_id_db = Card.query.filter_by().first().id
 
-        admin_created_card_res = self.client.delete("/cards/0", headers=user_headers, json=edit_data)
-        user_created_card_res = self.client.delete("/cards/2", headers=user_headers, json=edit_data)
+        admin_created_card_res = self.client.delete(f"/cards/{first_id_db}", headers=user_headers)
+        user_created_card_res = self.client.delete(f"/cards/{first_id_db + 2}", headers=user_headers)
 
         assert admin_created_card_res.status_code == 403
         assert user_created_card_res.status_code == 200
-
-
-
