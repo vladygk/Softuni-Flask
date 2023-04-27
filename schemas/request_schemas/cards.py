@@ -5,7 +5,8 @@ from marshmallow.validate import Length
 class CardRequestSchema(Schema):
     title = fields.String(required=True, validate=Length(min=1, max=60))
     description = fields.String(required=True, validate=Length(min=2, max=200))
-    photo_url = fields.String(required=True)
+    photo_base64 = fields.String(required=True)
+    photo_extension = fields.String(required=True)
     attribute = fields.String(required=True, validate=Length(min=2, max=60))
 
     @validates_schema

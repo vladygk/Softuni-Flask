@@ -1,8 +1,15 @@
+import os.path
+import uuid
+
 from werkzeug.exceptions import BadRequest, Forbidden, NotFound
 
 from db import db
 from managers.auth import auth
 from models import Card
+from services.firebase import FirebaseService
+from utils.working_with_files import decode_photo
+
+fire_base = FirebaseService()
 
 
 class CardManager:
@@ -39,6 +46,20 @@ class CardManager:
     def create_card(card_data):
         current_user = auth.current_user()
         card_data["owner_id"] = current_user.id
+
+        photo_name = f"{str(uuid.uuid4())}.{card_data.pop('photo_extension')}"
+        path_to_store_photo = photo_name
+        photo_as_string = card_data.pop("photo_base64")
+        decode_photo(path_to_store_photo, photo_as_string)
+
+        try:
+            url = fire_base.upload_file(path_to_store_photo, photo_name)
+        except Exception as ex:
+            raise Exception("Upload to Firebase failed")
+        finally:
+            os.remove(path_to_store_photo)
+
+        card_data["photo_url"] = url
 
         card = Card(**card_data)
 
